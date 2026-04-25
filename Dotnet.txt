@@ -1,0 +1,23 @@
+Ver SDKs instalados
+dotnet --list-sdks
+
+Ver runtimes instalados
+dotnet --list-runtimes
+
+Ver información general (incluye versión activa)
+dotnet --info
+Ver los paquetes instalado en el proyecto
+dotnet list package
+
+Generar el proyecto
+Version de dotnet 2.2.110
+
+creacion del proyecto en win10
+dotnet new webapi -f netcoreapp2.1 -o MiProyectoAPI
+
+
+Sln
+--> dotnet new sln -n MiProyectoAPI                         <-- Crea una solucion en blanco
+--> dotnet sln MiProyectoAPI.sln add MiProyectoAPI.csproj   <-- Agrega ala solucion un csproj
+--> dotnet sln list                                         <-- Lista el nombre del csproj del area de trabajo
+
