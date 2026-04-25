@@ -1,0 +1,153 @@
+Crea un nuevo proyecto: Abre tu terminal o línea de comandos y ejecuta el siguiente comando para crear un nuevo proyecto de API en .NET:
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+=======================================================================================================================================================
+--------------------------------------------------------------->PASO 1<---------------------------------------------------------------------------------
+
+--> dotnet new webapi -o MiProyectoAPI
+----> cd MiProyectoAPI
+--------> dotnet run
+
+=======================================================================================================================================================
+--------------------------------------------------------------->PASO 2<--------------------------------------------------------------------------------
+
+Instalar Swagger
+--> dotnet add package Swashbuckle.AspNetCore
+
+=======================================================================================================================================================
+--------------------------------------------------------------->PASO 3<--------------------------------------------------------------------------------
+
+//Agregamos los paquetes a Usar
+
+dotnet add package Pomelo.EntityFrameworkCore.MySql --version 9.0.0-preview.2  <<-- Esta pquete es para esta version
+dotnet add package Microsoft.EntityFrameworkCore --version 9.0.4
+dotnet add package Microsoft.EntityFrameworkCore.Relational --version 9.0.4
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.4
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.4
+
+=========================================================================================================================================================
+--------------------------------------------------------------->PASO 4<----------------------------------------------------------------------------------
+Importamos el modelo del mismo MySql
+
+--> dotnet ef dbcontext scaffold "server=localhost;database=saigotec;user=root;password=" Pomelo.EntityFrameworkCore.MySql -o Models -c DbsaigotecContext
+---------------------------------------------------------------> NOTA <----------------------------------------------------------------------------------
+--> dotnet restore
+
+==========================================================================================================================================================
+--------------------------------------------------------------->PASO 5<----------------------------------------------------------------------------------
+
+Integrar el Swagger al inicio del proyecto
+
+--> nos dirigimos al archivo Program.cs
+
+builder.Services.AddOpenApi(); //<-- despues de esta enunciado pegamos  la configuacion del Swagger
+
+// Configuración de Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
+var app = builder.Build(); //<-- despues de esta enunciado pegamos el Acceso en /swagger
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mi API v1");
+        c.RoutePrefix = string.Empty; // <--Accede en /swagger
+    });
+}
+
+---------------------------------------------------------------> NOTA <----------------------------------------------------------------------------------
+--> http://localhost:5248/index.html <-- esta serisa la URL pero debe darte con el puerto que se crea con la aplicacion
+
+==========================================================================================================================================================
+--------------------------------------------------------------->PASO 6<-----------------------------------------------------------------------------------
+
+Implementaremos la conexion
+--> Nos dirigiremos al archivo appsettings.json
+--> Implemeta el siguiente codigo
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+
+    "DefaultConnection": "server=localhost;database=saigotec;user=root;password="
+
+  }
+}
+
+---------------------------------------------------------------> NOTA <----------------------------------------------------------------------------------
+Una ves implementado lo anterior debes dirigirte al siguiente archivo Models/DbsaigotecContext.cs
+--> Todo este codigo lo comentas
+
+//     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//         => optionsBuilder.UseMySql("server=localhost;database=saigotec;user=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql"));
+
+
+==========================================================================================================================================================
+--------------------------------------------------------------->PASO 7<-----------------------------------------------------------------------------------
+
+Hora implementaremos la conexion en el archivo Program.cs
+--> Agregaremos las importaciones
+using Microsoft.EntityFrameworkCore;
+using Suikaze.Models;
+
+--> Agregaremos la conexcion
+var builder = WebApplication.CreateBuilder(args); <-- depues de este enunciado se agregara la conexcion
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DbsaigotecContext>(options =>
+
+    options.UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.AutoDetect(connectionString)));
+
+
+builder.Services.AddControllers(); <-- Es necesesario agregar el servicios de los controladores, Se hace aantes de la configuracion de Swagger
+
+// Configuración de Swagger <-- Se hace aantes de la configuracion de Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+--> Agregaremos el mapeo de los Controllers
+
+
+app.UseHttpsRedirection(); <-- Depues de este enunciado se agregara el mapeo de los controladores
+app.UseAuthorization();
+app.MapControllers();
+
+
+==========================================================================================================================================================
+--------------------------------------------------------------->PASO 8<-----------------------------------------------------------------------------------
+Hora de crear los controladores
+--> mkdir Controllers
+--> cd Controllers
+--> touch Cliente.cs
+--> deberemos Implementar el codigo del CRUD
+
+
+=========================================================================================================================================================
+--------------------------------------------------------------->NOTA<------------------------------------------------------------------------------------
+--> dotnet remove package Pomelo.EntityFrameworkCore.MySql  <-- permite eliminar el paquete
+--> dotnet list package                                     <-- Lista los paquetes instalados
+--> dotnet tool install --global dotnet-ef                  <-- instala el EF
+--> dotnet ef --version                                     <-- Verifica la version
+--> dotnet tool update --global dotnet-ef --version 9.0.4   <-- Actualiza ala version especifica
+
+==========================================================================================================================================================
+--------------------------------------------------------------->SLN OPCIONAL<-----------------------------------------------------------------------------
+Sln
+--> dotnet new sln -n MiProyectoAPI                         <-- Crea una solucion en blanco
+--> dotnet sln MiProyectoAPI.sln add MiProyectoAPI.csproj   <-- Agrega ala solucion un csproj
+--> dotnet sln list                                         <-- Lista el nombre del csproj del area de trabajo
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
