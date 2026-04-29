@@ -1,0 +1,20 @@
+dotnet aspnet-codegenerator controller -name UsuarioController -m Producto -dc DbzuikaContext --api
+
+dotnet aspnet-codegenerator controller -name UsuarioController -m Usuario -dc DbzuikaContext --api --outDir Controllers
+
+
+dotnet tool list -g
+dotnet tool install -g dotnet-aspnet-codegenerator --version 9.0.0
+dotnet tool uninstall -g dotnet-aspnet-codegenerator
+dotnet tool uninstall -g dotnet-ef
+
+
+
+dotnet ef dbcontext scaffold "server=localhost;database=zuika;user=root;password=" Pomelo.EntityFrameworkCore.MySql -o Models -c DbzuikaContext
+
+
+dotnet aspnet-codegenerator controller -name UsuarioController -m Usuario  -o Controllers -c DbzuikaContext
+
+dotnet aspnet-codegenerator controller -name Controllers/UsuarioController -m Usuario -dc DbzuikaContext
+
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.0

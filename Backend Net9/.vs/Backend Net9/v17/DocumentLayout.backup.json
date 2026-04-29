@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|c:\\users\\usuario\\desktop\\backend net9\\sakura\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|solutionrelative:sakura\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|c:\\users\\usuario\\desktop\\backend net9\\sakura\\models\\zuikacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|solutionrelative:sakura\\models\\zuikacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|c:\\users\\usuario\\desktop\\backend net9\\sakura\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|solutionrelative:sakura\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|c:\\users\\usuario\\desktop\\backend net9\\sakura\\models\\vehiculo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|solutionrelative:sakura\\models\\vehiculo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|c:\\users\\usuario\\desktop\\backend net9\\sakura\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|solutionrelative:sakura\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|c:\\users\\usuario\\desktop\\backend net9\\sakura\\models\\tarjetum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|solutionrelative:sakura\\models\\tarjetum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|c:\\users\\usuario\\desktop\\backend net9\\sakura\\models\\producto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|solutionrelative:sakura\\models\\producto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|c:\\users\\usuario\\desktop\\backend net9\\sakura\\models\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{333751A5-F152-E41A-8CD8-36B0277F3858}|sakura\\sakura.csproj|solutionrelative:sakura\\models\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Vehiculo.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\Vehiculo.cs",
+              "RelativeDocumentMoniker": "sakura\\Models\\Vehiculo.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\Vehiculo.cs",
+              "RelativeToolTip": "sakura\\Models\\Vehiculo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T21:44:56.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\Usuario.cs",
+              "RelativeDocumentMoniker": "sakura\\Models\\Usuario.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\Usuario.cs",
+              "RelativeToolTip": "sakura\\Models\\Usuario.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T21:44:54.991Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Tarjetum.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\Tarjetum.cs",
+              "RelativeDocumentMoniker": "sakura\\Models\\Tarjetum.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\Tarjetum.cs",
+              "RelativeToolTip": "sakura\\Models\\Tarjetum.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T21:44:54.277Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Producto.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\Producto.cs",
+              "RelativeDocumentMoniker": "sakura\\Models\\Producto.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\Producto.cs",
+              "RelativeToolTip": "sakura\\Models\\Producto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T21:44:53.355Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Cliente.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\Cliente.cs",
+              "RelativeDocumentMoniker": "sakura\\Models\\Cliente.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\Cliente.cs",
+              "RelativeToolTip": "sakura\\Models\\Cliente.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T21:44:44.491Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "zuikaContext.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\zuikaContext.cs",
+              "RelativeDocumentMoniker": "sakura\\Models\\zuikaContext.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Models\\zuikaContext.cs",
+              "RelativeToolTip": "sakura\\Models\\zuikaContext.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwB4AAACnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T21:37:00.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Program.cs",
+              "RelativeDocumentMoniker": "sakura\\Program.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\Program.cs",
+              "RelativeToolTip": "sakura\\Program.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T21:34:30.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\appsettings.json",
+              "RelativeDocumentMoniker": "sakura\\appsettings.json",
+              "ToolTip": "C:\\Users\\USUARIO\\Desktop\\Backend Net9\\sakura\\appsettings.json",
+              "RelativeToolTip": "sakura\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-29T21:33:47.303Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
