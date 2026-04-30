@@ -9,6 +9,7 @@ echo =====================================
 echo 1. Crear Proyecto Dotnet9
 echo 2. Iniciar Proyecto
 echo 3. Tools - Herramientas adicionales
+echo 4. Ejecutar scrcpy
 echo 0. Salir
 echo =====================================
 set /p choice=Elige una opcion (0-3):
@@ -16,7 +17,43 @@ set /p choice=Elige una opcion (0-3):
 if %choice%==1 goto crear_proyecto
 if %choice%==2 goto iniciar_proyecto
 if %choice%==3 goto tools_menu
+if %choice%==4 goto seleccionar_dispositivo_scrcpy
 if %choice%==0 goto salir
+
+:seleccionar_dispositivo_scrcpy
+cls
+echo =====================================
+echo          Dispositivos Conectados
+echo =====================================
+adb devices | findstr /v "List" | findstr /r /v "^$" > dispositivos.txt
+set /a i=1
+for /f "tokens=1" %%d in (dispositivos.txt) do (
+    for /f "tokens=*" %%m in ('adb -s %%d shell getprop ro.product.model') do (
+        echo !i!. %%m - %%d
+        set devices[!i!]=%%d
+        set /a i+=1
+    )
+)
+del dispositivos.txt
+echo %i%. Regresar
+echo =====================================
+set /p device_choice=Elige un dispositivo (1-%i%):
+
+if %device_choice%==%i% goto menu
+
+if defined devices[%device_choice%] (
+    set device_id=!devices[%device_choice%]!
+    goto ejecutar_scrcpy_admin
+) else (
+    echo Opcion invalida.
+    pause
+    goto seleccionar_dispositivo_scrcpy
+)
+
+:ejecutar_scrcpy_admin
+:: Ejecutar scrcpy como administrador
+powershell -Command "Start-Process cmd -ArgumentList '/k scrcpy -s %device_id%' -Verb RunAs"
+goto menu
 
 :crear_proyecto
 cls
@@ -294,6 +331,7 @@ if exist "src\database\SuperUsuario.js" (
 )
 goto menu
 
+
 :listar_paquetes
 cls
 echo =====================================
@@ -526,12 +564,15 @@ del Program.cs 2>nul
 >> Program.cs echo.
 >> Program.cs echo app.Run(^);
 
+
 if exist Program.cs (
-    echo Program.cs generado correctamente.
+    echo Program.cs generado correctamente.    
 ) else (
     echo ERROR: No se pudo generar Program.cs.
     exit /b 1
 )
+:: Eliminar archivos temporales (están en la carpeta del script)
+del "%~dp0proyecto_actual.txt" "%~dp0db_host.txt" "%~dp0db_name.txt" "%~dp0db_user.txt" "%~dp0db_password.txt" "%~dp0dbcontext_name.txt" 2>nul
 
 echo Archivos configurados correctamente.
-exit /b
+goto menu
