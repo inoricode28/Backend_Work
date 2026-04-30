@@ -515,7 +515,7 @@ echo   }
 echo }
 ) > Properties\launchSettings.json
 
-:: 4. Generar Program.cs línea por línea (sin bloque de paréntesis)
+:: 4. Generar Program.cs línea por línea (con soporte CORS)
 echo Generando Program.cs...
 del Program.cs 2>nul
 
@@ -524,27 +524,41 @@ del Program.cs 2>nul
 >> Program.cs echo.
 >> Program.cs echo var builder = WebApplication.CreateBuilder(args^);
 >> Program.cs echo.
+>> Program.cs echo  // 👇 Hacemos que escuche en todas las IPs y puerto 5000
+>> Program.cs echo builder.WebHost.UseUrls("http://0.0.0.0:5000"^);
+>> Program.cs echo.
 >> Program.cs echo var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"^);
 >> Program.cs echo builder.Services.AddDbContext^<%dbcontext_name%^>(options =^> options.UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.AutoDetect(connectionString)^)^);
 >> Program.cs echo.
+>> Program.cs echo // Configuracion de CORS
+>> Program.cs echo builder.Services.AddCors(options =^>
+>> Program.cs echo {
+>> Program.cs echo     options.AddPolicy("AllowAll", policy =^>
+>> Program.cs echo     {
+>> Program.cs echo         policy.AllowAnyOrigin^(^)
+>> Program.cs echo               .AllowAnyMethod^(^)
+>> Program.cs echo               .AllowAnyHeader^(^);
+>> Program.cs echo     }^);
+>> Program.cs echo }^);
+>> Program.cs echo.
 >> Program.cs echo // Add services to the container.
 >> Program.cs echo // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
->> Program.cs echo builder.Services.AddOpenApi(^);
+>> Program.cs echo builder.Services.AddOpenApi^(^);
 >> Program.cs echo.
 >> Program.cs echo // Servicios necesarios
->> Program.cs echo builder.Services.AddAuthorization(^); // ← AGREGAR
->> Program.cs echo builder.Services.AddControllers(^); // ← AGREGAR
+>> Program.cs echo builder.Services.AddAuthorization^(^); // ← AGREGAR
+>> Program.cs echo builder.Services.AddControllers^(^); // ← AGREGAR
 >> Program.cs echo.
 >> Program.cs echo // Configuracion de Swagger
->> Program.cs echo builder.Services.AddEndpointsApiExplorer(^);
->> Program.cs echo builder.Services.AddSwaggerGen(^);
+>> Program.cs echo builder.Services.AddEndpointsApiExplorer^(^);
+>> Program.cs echo builder.Services.AddSwaggerGen^(^);
 >> Program.cs echo.
->> Program.cs echo var app = builder.Build(^);
+>> Program.cs echo var app = builder.Build^(^);
 >> Program.cs echo.
 >> Program.cs echo // Configure the HTTP request pipeline.
->> Program.cs echo if (app.Environment.IsDevelopment(^)^)
+>> Program.cs echo if (app.Environment.IsDevelopment^(^)^)
 >> Program.cs echo {
->> Program.cs echo     app.UseSwagger(^);
+>> Program.cs echo     app.UseSwagger^(^);
 >> Program.cs echo     app.UseSwaggerUI(c =^>
 >> Program.cs echo     {
 >> Program.cs echo         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mi API v1"^);
@@ -552,25 +566,23 @@ del Program.cs 2>nul
 >> Program.cs echo     }^);
 >> Program.cs echo }
 >> Program.cs echo.
->> Program.cs echo //// Configure the HTTP request pipeline.
->> Program.cs echo //if (app.Environment.IsDevelopment(^)^)
->> Program.cs echo //{
->> Program.cs echo //    app.MapOpenApi(^);
->> Program.cs echo //}
+>> Program.cs echo app.UseHttpsRedirection^(^);
 >> Program.cs echo.
->> Program.cs echo app.UseHttpsRedirection(^);
->> Program.cs echo app.UseAuthorization(^); //Se Agrego
->> Program.cs echo app.MapControllers(^); //Se Agrego
+>> Program.cs echo // Usar CORS antes de Authorization
+>> Program.cs echo app.UseCors("AllowAll"^);
 >> Program.cs echo.
->> Program.cs echo app.Run(^);
-
+>> Program.cs echo app.UseAuthorization^(^); //Se Agrego
+>> Program.cs echo app.MapControllers^(^); //Se Agrego
+>> Program.cs echo.
+>> Program.cs echo app.Run^(^);
 
 if exist Program.cs (
-    echo Program.cs generado correctamente.    
+    echo Program.cs generado correctamente.
 ) else (
     echo ERROR: No se pudo generar Program.cs.
     exit /b 1
 )
+
 :: Eliminar archivos temporales (están en la carpeta del script)
 del "%~dp0proyecto_actual.txt" "%~dp0db_host.txt" "%~dp0db_name.txt" "%~dp0db_user.txt" "%~dp0db_password.txt" "%~dp0dbcontext_name.txt" 2>nul
 
