@@ -149,19 +149,17 @@ if exist "Models\*.cs" (
     echo No se encontraron modelos en la carpeta Models
 )
 
-:: Agregar configuracion de CORS y Swagger
-echo.
-echo Configurando CORS y Swagger...
-powershell -Command "(Get-Content Program.cs) -replace 'app.UseHttpsRedirection();', 'app.UseHttpsRedirection();`r`n`r`nbuilder.Services.AddCors(options => {`r`n    options.AddPolicy(`"AllowAll`",`r`n        builder => {`r`n            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();`r`n        });`r`n});' | Set-Content Program.cs"
-
-powershell -Command "(Get-Content Program.cs) -replace 'app.UseAuthorization();', 'app.UseCors(`"AllowAll`");`r`napp.UseAuthorization();' | Set-Content Program.cs"
+:: ============================================================
+:: MODIFICAR ARCHIVOS SEGÚN EL MOLDE (SIN DEPENDER DE POWERSHELL)
+:: ============================================================
+call :modificar_archivos_proyecto
 
 echo.
 echo =====================================
 echo Proyecto creado exitosamente!
 echo - Modelos importados desde: %db_name%
 echo - Controladores generados: Ver carpeta Controllers
-echo - CORS configurado para aceptar todas las origenes
+echo - Archivos configurados segun el molde
 echo =====================================
 pause
 goto menu
@@ -237,7 +235,8 @@ echo 3. Super Usuario
 echo 4. Listar paquetes instalados
 echo 5. Regenerar Controladores
 echo 6. Instalar/Actualizar dotnet-ef
-echo 7. Ver Paquete dotnet-aspnet-codegenerator
+echo 7. Instalar dotnet-aspnet-codegenerator
+echo 8. Ver Paquete dotnet-aspnet-codegenerator
 echo 0. Volver al menu principal
 echo =====================================
 set /p "tool_choice=Elige una opcion (0-6): "
@@ -248,7 +247,8 @@ if "%tool_choice%"=="3" goto super_usuario
 if "%tool_choice%"=="4" goto listar_paquetes
 if "%tool_choice%"=="5" goto regenerar_controladores
 if "%tool_choice%"=="6" goto instalar_ef
-if "%tool_choice%"=="7" goto ver_paquete
+if "%tool_choice%"=="7" goto instalar_codegenerator
+if "%tool_choice%"=="8" goto ver_paquete
 if "%tool_choice%"=="0" goto menu
 goto tools_menu
 
@@ -377,6 +377,23 @@ echo Para usar dotnet-ef, cierra y abre una nueva terminal
 pause
 goto menu
 
+:instalar_codegenerator
+cls
+echo =====================================
+echo     Instalando dotnet-aspnet-codegenerator
+echo =====================================
+dotnet tool install -g dotnet-aspnet-codegenerator --version 9.0.0
+if %errorlevel% equ 0 (
+    echo dotnet-aspnet-codegenerator instalado correctamente
+) else (
+    echo Actualizando dotnet-aspnet-codegenerator...
+    dotnet tool update --global dotnet-aspnet-codegenerator --version 9.0.0
+)
+echo.
+echo Para usar dotnet-aspnet-codegenerator, cierra y abre una nueva terminal
+pause
+goto menu
+
 :ver_paquete
 cls
 echo =====================================
@@ -384,10 +401,10 @@ echo     Listando paquetes instalados
 echo =====================================
 cd /d "%~dp0"
 for /d %%F in (*) do (
-    if exist "%%F\*.csproj" (
+    
         start cmd /c "cd /d "%%F" && dotnet tool list -g && timeout /t 60"
         goto :volver
-    )
+    
 )
 echo No se encontro proyecto
 pause
@@ -396,3 +413,125 @@ goto menu
 
 :salir
 exit
+
+:: ------------------------------------------------------------
+:: SUBRUTINA PARA MODIFICAR PROGRAM.CS, APPSETTINGS.JSON Y LAUNCHSETTINGS.JSON
+:: SIN USAR POWERSHELL (SOLO ECHO Y REDIRECCION)
+:: ------------------------------------------------------------
+:modificar_archivos_proyecto
+echo.
+echo Configurando archivos del proyecto segun el molde...
+
+:: Asegurar que estamos en la carpeta del proyecto
+cd /d "%project_name%" 2>nul
+
+:: 1. Construir la cadena de conexion para appsettings.json
+set "conn_string=server=%db_host%;database=%db_name%;user=%db_user%"
+if not "%db_password%"=="" set "conn_string=%conn_string%;password=%db_password%"
+
+:: 2. Generar appsettings.json completo
+echo Generando appsettings.json...
+(
+echo { 
+echo   "Logging": {
+echo     "LogLevel": {
+echo       "Default": "Information",
+echo       "Microsoft.AspNetCore": "Warning"
+echo     }
+echo   },
+echo   "AllowedHosts": "*",
+echo   "ConnectionStrings": {
+echo     "DefaultConnection": "%conn_string%"
+echo   }
+echo }
+) > appsettings.json
+
+:: 3. Generar launchSettings.json completo (con launchBrowser true y launchUrl "/")
+echo Generando launchSettings.json...
+if not exist "Properties" mkdir Properties
+(
+echo {
+echo   "$schema": "https://json.schemastore.org/launchsettings.json",
+echo   "profiles": {
+echo     "http": {
+echo       "commandName": "Project",
+echo       "dotnetRunMessages": true,
+echo       "launchBrowser": true,
+echo       "launchUrl": "/",
+echo       "applicationUrl": "http://localhost:5222",
+echo       "environmentVariables": {
+echo         "ASPNETCORE_ENVIRONMENT": "Development"
+echo       }
+echo     },
+echo     "https": {
+echo       "commandName": "Project",
+echo       "dotnetRunMessages": true,
+echo       "launchBrowser": true,
+echo       "launchUrl": "/",
+echo       "applicationUrl": "https://localhost:7247;http://localhost:5222",
+echo       "environmentVariables": {
+echo         "ASPNETCORE_ENVIRONMENT": "Development"
+echo       }
+echo     }
+echo   }
+echo }
+) > Properties\launchSettings.json
+
+:: 4. Generar Program.cs línea por línea (sin bloque de paréntesis)
+echo Generando Program.cs...
+del Program.cs 2>nul
+
+> Program.cs echo using %project_name%.Models;
+>> Program.cs echo using Microsoft.EntityFrameworkCore;
+>> Program.cs echo.
+>> Program.cs echo var builder = WebApplication.CreateBuilder(args^);
+>> Program.cs echo.
+>> Program.cs echo var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"^);
+>> Program.cs echo builder.Services.AddDbContext^<%dbcontext_name%^>(options =^> options.UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.AutoDetect(connectionString)^)^);
+>> Program.cs echo.
+>> Program.cs echo // Add services to the container.
+>> Program.cs echo // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+>> Program.cs echo builder.Services.AddOpenApi(^);
+>> Program.cs echo.
+>> Program.cs echo // Servicios necesarios
+>> Program.cs echo builder.Services.AddAuthorization(^); // ← AGREGAR
+>> Program.cs echo builder.Services.AddControllers(^); // ← AGREGAR
+>> Program.cs echo.
+>> Program.cs echo // Configuracion de Swagger
+>> Program.cs echo builder.Services.AddEndpointsApiExplorer(^);
+>> Program.cs echo builder.Services.AddSwaggerGen(^);
+>> Program.cs echo.
+>> Program.cs echo var app = builder.Build(^);
+>> Program.cs echo.
+>> Program.cs echo // Configure the HTTP request pipeline.
+>> Program.cs echo if (app.Environment.IsDevelopment(^)^)
+>> Program.cs echo {
+>> Program.cs echo     app.UseSwagger(^);
+>> Program.cs echo     app.UseSwaggerUI(c =^>
+>> Program.cs echo     {
+>> Program.cs echo         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mi API v1"^);
+>> Program.cs echo         c.RoutePrefix = string.Empty; // ^<--Accede en /swagger
+>> Program.cs echo     }^);
+>> Program.cs echo }
+>> Program.cs echo.
+>> Program.cs echo //// Configure the HTTP request pipeline.
+>> Program.cs echo //if (app.Environment.IsDevelopment(^)^)
+>> Program.cs echo //{
+>> Program.cs echo //    app.MapOpenApi(^);
+>> Program.cs echo //}
+>> Program.cs echo.
+>> Program.cs echo app.UseHttpsRedirection(^);
+>> Program.cs echo app.UseAuthorization(^); //Se Agrego
+>> Program.cs echo app.MapControllers(^); //Se Agrego
+>> Program.cs echo.
+>> Program.cs echo app.Run(^);
+
+if exist Program.cs (
+    echo Program.cs generado correctamente.
+) else (
+    echo ERROR: No se pudo generar Program.cs.
+    exit /b 1
+)
+
+echo Archivos configurados correctamente.
+exit /b
